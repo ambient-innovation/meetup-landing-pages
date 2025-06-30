@@ -5,9 +5,9 @@ import { defineConfig } from 'astro/config';
 const MEETUP_ID = process.env.MEETUP_ID || 'cologne-js'; // default to cologne-js
 
 // Set the base path for GitHub Pages deployment
-const getBase = (meetupId) => {
+const getBase = () => {
   if (process.env.GITHUB_ACTIONS) {
-    return `/${meetupId}/`;
+    return `/${process.env.GITHUB_REPOSITORY_NAME}/`;
   }
   return '/';
 };
@@ -16,7 +16,7 @@ const getBase = (meetupId) => {
 const getSite = () => {
   if (process.env.GITHUB_ACTIONS) {
     // GitHub Pages URL format: https://username.github.io/repository-name/
-    return process.env.GITHUB_PAGES_URL || 'https://your-username.github.io/meetup-landing-pages/';
+    return process.env.GITHUB_PAGES_URL || 'https://ambient-innovation.github.io/meetup-landing-pages/';
   }
   return 'http://localhost:4321/';
 };
@@ -24,7 +24,7 @@ const getSite = () => {
 // https://astro.build/config
 export default defineConfig({
   site: getSite(),
-  base: getBase(MEETUP_ID),
+  base: getBase(),
   build: {
     format: 'directory' // Creates clean URLs like /django-cologne/ instead of /django-cologne.html
   },

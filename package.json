@@ -4,11 +4,17 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "dev:django": "MEETUP_ID=django-cologne astro dev",
+    "dev:colognejs": "MEETUP_ID=cologne-js astro dev",
     "build": "astro build",
+    "build:django": "MEETUP_ID=django-cologne astro build",
+    "build:colognejs": "MEETUP_ID=cologne-js astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.10.1"
+    "astro": "^5.10.1",
+    "date-fn": "^0.0.2",
+    "date-fns": "^4.1.0"
   }
 }

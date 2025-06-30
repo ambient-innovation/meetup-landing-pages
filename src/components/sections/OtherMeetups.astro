@@ -1,0 +1,136 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import type { MeetupContent } from "../../config/types";
+
+export interface Props {
+  content: MeetupContent;
+}
+
+const { content } = Astro.props;
+---
+
+{
+  content.otherMeetups && content.otherMeetups.length > 0 && (
+    <section class="other-meetups">
+      <div class="other-meetups__container">
+        <SectionTitle title="Our Other Meetups" />
+
+        <div class="other-meetups__grid">
+          {content.otherMeetups.map((meetup) => (
+            <a href={meetup.url} class="other-meetup-card">
+              <div class="other-meetup-card__image">
+                {meetup.logo ? (
+                  <img src={meetup.ogImage} alt={meetup.name} />
+                ) : (
+                  <div class="other-meetup-card__image-placeholder">
+                    <span class="other-meetup-card__image-text">OG IMAGE</span>
+                  </div>
+                )}
+              </div>
+              <div class="other-meetup-card__content">
+                <h3 class="other-meetup-card__name">{meetup.name}</h3>
+                <p class="other-meetup-card__description">
+                  {meetup.description}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .other-meetups__container {
+    margin: 0 auto;
+  }
+
+  .other-meetups__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .other-meetup-card {
+    width: fit-content;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+    display: block;
+    overflow: hidden;
+  }
+
+  .other-meetup-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(59, 130, 246, 0.5);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .other-meetup-card__image {
+    width: 100%;
+    padding: 1rem;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .other-meetup-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .other-meetup-card__image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .other-meetup-card__image-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: rgba(59, 130, 246, 0.8);
+    letter-spacing: 0.05em;
+  }
+
+  .other-meetup-card__content {
+    padding: 1.5rem;
+  }
+
+  .other-meetup-card__name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .other-meetup-card__description {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .other-meetups {
+      padding: 4rem 0;
+    }
+
+    .other-meetups__container {
+      padding: 0 1rem;
+    }
+
+    .other-meetups__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

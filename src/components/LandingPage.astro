@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "./sections/Hero.astro";
+import NextMeetup from "./sections/NextMeetup.astro";
+import About from "./sections/About.astro";
+import FindUs from "./sections/FindUs.astro";
+import PastMeetups from "./sections/PastMeetups.astro";
+import OtherMeetups from "./sections/OtherMeetups.astro";
+import Contact from "./sections/Contact.astro";
+import type { MeetupConfig } from "../config/types";
+
+export interface Props {
+  meetup: MeetupConfig;
+}
+
+const { meetup } = Astro.props;
+---
+
+<Layout meetup={meetup}>
+  <Hero meetup={meetup} />
+  <NextMeetup content={meetup.content} />
+  <About content={meetup.content} />
+  <FindUs meetup={meetup} />
+  <OtherMeetups content={meetup.content} />
+  <Contact content={meetup.content} />
+</Layout>

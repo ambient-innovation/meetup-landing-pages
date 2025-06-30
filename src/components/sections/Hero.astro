@@ -1,0 +1,83 @@
+---
+import type { MeetupConfig } from "../../config/types";
+
+export interface Props {
+  meetup: MeetupConfig;
+}
+
+const { meetup } = Astro.props;
+---
+
+<section class="hero">
+  <div class="hero__container">
+    <div class="hero__brand">
+      <h1 class="hero__title">
+        <img
+          src={meetup.meta.logo}
+          alt={meetup.content.name}
+          class="hero__logo"
+          style="max-width: 80vw;"
+        />
+      </h1>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    color: var(--color-text);
+    position: relative;
+  }
+
+  .hero__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .hero__brand {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding-top: 4rem;
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 8vw, 4rem);
+    font-weight: 300;
+    margin: 0;
+    letter-spacing: 0.2em;
+  }
+
+  .hero__ambient {
+    color: var(--color-text);
+  }
+
+  .hero__separator {
+    margin: 0 1rem;
+    color: var(--color-text-secondary);
+  }
+
+  .hero__meetup {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .hero__container {
+      padding: 0 1rem;
+    }
+
+    .hero__brand {
+      margin-bottom: 3rem;
+      padding-top: 2rem;
+    }
+
+    .hero__title {
+      letter-spacing: 0.1em;
+    }
+
+    .hero__separator {
+      margin: 0 0.5rem;
+    }
+  }
+</style>

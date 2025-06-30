@@ -1,0 +1,219 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import type { MeetupConfig } from "../../config/types";
+import OfficeMap from "./OfficeMap.astro";
+
+export interface Props {
+  meetup: MeetupConfig;
+}
+
+const { meetup } = Astro.props;
+
+const { theme, content } = meetup;
+---
+
+<section class="find-us" id="find-us">
+  <div class="find-us__container">
+    <SectionTitle title="How to Find Us" />
+
+    {
+      content.contact.location && (
+        <div class="find-us__content">
+          <div class="find-us__info">
+            <h3 class="find-us__venue-title">You can find us here:</h3>
+
+            <div class="find-us__contact-grid">
+              <div class="find-us__contact-item">
+                <div class="find-us__contact-icon">📍</div>
+                <div class="find-us__contact-details">
+                  <p class="find-us__contact-label">Location</p>
+                  <p class="find-us__contact-value">
+                    {content.contact.location.venue}
+                  </p>
+                  <p class="find-us__contact-address">
+                    {content.contact.location.address}
+                  </p>
+                </div>
+              </div>
+
+              {content.contact.location.directions && (
+                <div class="find-us__contact-item">
+                  <div class="find-us__contact-icon">🚇</div>
+                  <div class="find-us__contact-details">
+                    <p class="find-us__contact-label">Public Transport</p>
+                    <p class="find-us__contact-value">
+                      {content.contact.location.directions}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {content.contact.email && (
+                <div class="find-us__contact-item">
+                  <div class="find-us__contact-icon">✉️</div>
+                  <div class="find-us__contact-details">
+                    <p class="find-us__contact-label">Email</p>
+                    <p class="find-us__contact-value">
+                      {content.contact.email}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {content.contact.meetup && (
+                <div class="find-us__contact-item">
+                  <div class="find-us__contact-icon">👥</div>
+                  <div class="find-us__contact-details">
+                    <p class="find-us__contact-label">Meetup.com</p>
+                    <a
+                      href={content.contact.meetup}
+                      class="find-us__contact-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Join our Meetup group
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div class="find-us__map">
+            <OfficeMap theme={theme} />
+          </div>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .find-us__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .find-us__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .find-us__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .find-us__venue-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 2rem 0;
+  }
+
+  .find-us__contact-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .find-us__contact-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .find-us__contact-icon {
+    font-size: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .find-us__contact-details {
+    flex: 1;
+  }
+
+  .find-us__contact-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0 0 0.25rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .find-us__contact-value {
+    font-size: 1rem;
+    color: var(--color-text);
+    margin: 0 0 0.25rem 0;
+    font-weight: 500;
+  }
+
+  .find-us__contact-address {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .find-us__contact-link {
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .find-us__contact-link:hover {
+    color: var(--color-secondary);
+  }
+
+  .find-us__map {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .find-us__map-placeholder {
+    text-align: center;
+    color: var(--color-text-secondary);
+  }
+
+  .find-us__map-placeholder p {
+    margin: 0.25rem 0;
+  }
+
+  .find-us__map-placeholder p:first-child {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .find-us {
+      padding: 4rem 0;
+    }
+
+    .find-us__container {
+      padding: 0 1rem;
+    }
+
+    .find-us__content {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .find-us__map {
+      height: 300px;
+    }
+  }
+</style>

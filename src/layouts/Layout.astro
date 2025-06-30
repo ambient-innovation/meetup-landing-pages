@@ -1,22 +1,135 @@
+---
+import type { MeetupConfig } from "../config/types";
+
+export interface Props {
+  meetup: MeetupConfig;
+}
+
+const { meetup } = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <title>{meetup.meta.title}</title>
+    <meta name="description" content={meetup.meta.description} />
+    <meta name="keywords" content={meetup.meta.keywords.join(", ")} />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content={meetup.meta.title} />
+    <meta property="og:description" content={meetup.meta.description} />
+    <meta property="og:type" content="website" />
+    {
+      meetup.meta.ogImage && (
+        <meta property="og:image" content={meetup.meta.ogImage} />
+      )
+    }
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content={meetup.meta.twitterCard || "summary"} />
+    <meta name="twitter:title" content={meetup.meta.title} />
+    <meta name="twitter:description" content={meetup.meta.description} />
+    {
+      meetup.meta.ogImage && (
+        <meta name="twitter:image" content={meetup.meta.ogImage} />
+      )
+    }
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style
+  define:vars={{
+    primary: meetup.theme.primary,
+    secondary: meetup.theme.secondary,
+    accent: meetup.theme.accent,
+    background: meetup.theme.background,
+    text: meetup.theme.text,
+    textSecondary: meetup.theme.textSecondary,
+  }}
+>
+  :root {
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
+    --color-accent: var(--accent);
+    --color-background: var(--background);
+    --color-text: var(--text);
+    --color-text-secondary: var(--textSecondary);
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 24px;
+    font-family: system-ui, sans-serif;
+    background-color: var(--color-background);
+    background-image: radial-gradient(
+        circle at 20% 80%,
+        rgba(120, 119, 198, 0.15) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 20%,
+        rgba(255, 255, 255, 0.05) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 40% 40%,
+        rgba(120, 119, 198, 0.08) 0%,
+        transparent 50%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.02) 2px,
+        rgba(255, 255, 255, 0.02) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.02) 2px,
+        rgba(255, 255, 255, 0.02) 4px
+      );
+    background-size:
+      800px 800px,
+      600px 600px,
+      400px 400px,
+      20px 20px,
+      20px 20px;
+    background-position:
+      0 0,
+      100px 100px,
+      50px 50px,
+      0 0,
+      0 0;
+    color: var(--color-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    html,
+    body {
+      gap: 4rem;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+  }
 </style>

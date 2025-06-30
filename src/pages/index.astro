@@ -1,11 +1,99 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import LandingPage from "../components/LandingPage.astro";
+import { getMeetupConfig } from "../config/meetups";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Get meetup ID from environment variable
+const meetupId = import.meta.env.MEETUP_ID || "cologne-js";
+const meetup = getMeetupConfig(meetupId);
+
+if (!meetup) {
+  throw new Error(`Meetup configuration not found for ID: ${meetupId}`);
+}
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<LandingPage meetup={meetup} />
+
+<style>
+  .main {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      var(--color-secondary) 100%
+    );
+    color: var(--color-background);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+    margin: 0 0 4rem 0;
+    opacity: 0.9;
+  }
+
+  .meetup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .meetup-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .meetup-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .meetup-tagline {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: var(--color-secondary);
+  }
+
+  .meetup-description {
+    font-size: 1rem;
+    margin: 0 0 2rem 0;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+
+    .meetup-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .meetup-card {
+      padding: 1.5rem;
+    }
+  }
+</style>

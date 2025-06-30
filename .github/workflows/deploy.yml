@@ -1,0 +1,147 @@
+name: Deploy Meetup Landing Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        meetup: [cologne-js, django-cologne]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build site for ${{ matrix.meetup }}
+        env:
+          MEETUP_ID: ${{ matrix.meetup }}
+        run: npm run build
+        
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.meetup }}-dist
+          path: ./dist
+          retention-days: 1
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Create deployment directory
+        run: mkdir -p ./combined-dist
+        
+      - name: Download CologneJS build
+        uses: actions/download-artifact@v4
+        with:
+          name: cologne-js-dist
+          path: ./combined-dist/cologne-js
+          
+      - name: Download Django Cologne build
+        uses: actions/download-artifact@v4
+        with:
+          name: django-cologne-dist
+          path: ./combined-dist/django-cologne
+          
+      - name: Create index page
+        run: |
+          cat > ./combined-dist/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Meetup Landing Pages</title>
+            <style>
+              body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 2rem; }
+              .meetup-link { display: block; padding: 1rem; margin: 1rem 0; background: #f5f5f5; border-radius: 8px; text-decoration: none; color: #333; }
+              .meetup-link:hover { background: #e5e5e5; }
+            </style>
+          </head>
+          <body>
+            <h1>Meetup Landing Pages</h1>
+            <p>Select a meetup to view its landing page:</p>
+            <a href="/cologne-js/" class="meetup-link">
+              <h2>Cologne.js</h2>
+              <p>JavaScript meetup in Cologne</p>
+            </a>
+            <a href="/django-cologne/" class="meetup-link">
+              <h2>Django Cologne</h2>
+              <p>Django meetup in Cologne</p>
+            </a>
+          </body>
+          </html>
+          EOF
+          
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./combined-dist
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Alternative: Deploy to separate domains (uncomment and configure as needed)
+  # deploy-colognejs:
+  #   if: github.ref == 'refs/heads/main'
+  #   needs: build-and-deploy
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download CologneJS build
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: cologne-js-dist
+  #         path: ./dist
+  #     - name: Deploy to CologneJS domain
+  #       # Add your deployment steps here (e.g., Netlify, Vercel, S3, etc.)
+  #       # Example for Netlify:
+  #       # run: npx netlify-cli deploy --prod --dir ./dist --site ${{ secrets.NETLIFY_SITE_ID_COLOGNEJS }}
+  #       run: echo "Deploy to colognejs.de"
+
+  # deploy-django:
+  #   if: github.ref == 'refs/heads/main'
+  #   needs: build-and-deploy
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download Django build
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: django-cologne-dist
+  #         path: ./dist
+  #     - name: Deploy to Django domain
+  #       # Add your deployment steps here (e.g., Netlify, Vercel, S3, etc.)
+  #       # Example for Netlify:
+  #       # run: npx netlify-cli deploy --prod --dir ./dist --site ${{ secrets.NETLIFY_SITE_ID_DJANGO }}
+  #       run: echo "Deploy to django-cologne.org" 

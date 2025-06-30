@@ -1,0 +1,115 @@
+---
+export interface Props {
+  variant?: "primary" | "secondary" | "outline";
+  size?: "sm" | "md" | "lg";
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  class?: string;
+  internal?: boolean;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  href,
+  type = "button",
+  class: className = "",
+  internal = false,
+} = Astro.props;
+
+const Tag = href ? "a" : "button";
+const classes = `btn btn--${variant} btn--${size} ${className}`.trim();
+---
+
+<Tag
+  class={classes}
+  href={href}
+  type={href ? undefined : type}
+  {...href && !internal ? { target: "_blank", rel: "noopener noreferrer" } : {}}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    letter-spacing: 0.025em;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  /* Sizes */
+  .btn--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .btn--md {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .btn--lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+
+  /* Variants */
+  .btn--primary {
+    background-color: var(--color-primary);
+    color: var(--color-accent);
+    border-color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  .btn--primary:hover {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    box-shadow: 0 8px 25px rgba(247, 223, 30, 0.4);
+  }
+
+  .btn--secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-accent);
+    border-color: var(--color-secondary);
+  }
+
+  .btn--secondary:hover {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .btn--outline {
+    background-color: transparent;
+    color: var(--color-text);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .btn--outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--color-text);
+  }
+
+  .discord-button {
+    background-color: #7289da;
+    color: #fff;
+  }
+</style>

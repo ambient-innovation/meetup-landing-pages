@@ -108,27 +108,7 @@ export MEETUP_ID=django-cologne
 
 ## 🌐 Deployment Strategies
 
-### Option 1: Separate Repositories/Deployments
-
-Clone this repository for each meetup and deploy separately:
-
-```bash
-# CologneJS deployment
-git clone <repo> colognejs-site
-cd colognejs-site
-echo "MEETUP_ID=cologne-js" > .env
-npm run build
-# Deploy dist/ to colognejs.de
-
-# Django Cologne deployment  
-git clone <repo> django-cologne-site
-cd django-cologne-site
-echo "MEETUP_ID=django-cologne" > .env
-npm run build
-# Deploy dist/ to django-cologne.org
-```
-
-### Option 2: GitHub Actions with Matrix Builds
+### Option 1: GitHub Actions with Matrix Builds
 
 Use the provided workflow (`.github/workflows/deploy.yml`) with matrix strategy:
 
@@ -140,18 +120,28 @@ env:
   MEETUP_ID: ${{ matrix.meetup }}
 ```
 
-### Option 3: Manual Builds
+### Option 2: Manual Builds
 
 ```bash
 # Build both versions locally
 npm run build:colognejs
 cp -r dist/ colognejs-dist/
+# Deploy colognejs-dist/ to your domain
 
 npm run build:django  
 cp -r dist/ django-dist/
+# Deploy django-dist/ to your domain
 
 # Deploy each dist folder to respective domains
 ```
+
+
+### Caveats
+The base url for github pages is a bit weird looking. For example, this is the url for the logo of the djangocologne meetup:
+https://ambient-innovation.github.io/meetup-landing-pages/django-cologne/djangocologne/logo.svg
+
+This is because the github pages url is set to `/meetup-landing-pages/` (the repository name), inside that we have the meetup id and the logo is in the `djangocologne` folder.
+We could possibly fix this by having the logo in the root folder.
 
 ## 🔧 Configuration Reference
 

@@ -4,7 +4,7 @@ import { defineConfig } from "astro/config";
 // Determine which meetup to build based on environment variable
 const MEETUP_ID = process.env.MEETUP_ID || "cologne-js"; // default to cologne-js
 
-const getBase = () => {
+export const getBase = () => {
   return `/meetup-landing-pages/${MEETUP_ID}/`;
 };
 

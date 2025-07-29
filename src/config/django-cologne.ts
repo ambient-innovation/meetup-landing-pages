@@ -14,9 +14,9 @@ export const djangoCologneConfig: MeetupConfig = {
     title: `${djangoCologne.name} - ${djangoCologne.description}`,
     description: 'Join the Django Cologne community for Python web development discussions, talks, and networking in Cologne, Germany.',
     keywords: ['Django', 'Python', 'Web Development', 'Cologne', 'Meetup', 'Programming'],
-    ogImage: djangoCologne.ogImage,
+    ogImage: import.meta.env.BASE_URL + djangoCologne.ogImage,
     twitterCard: 'summary_large_image',
-    logo: djangoCologne.logo
+    logo: import.meta.env.BASE_URL + djangoCologne.logo
   },
   theme: {
     primary: '#6CD3A1',
@@ -45,12 +45,12 @@ export const djangoCologneConfig: MeetupConfig = {
       {
         date: '2024-01-18',
         title: 'Building Scalable Django APIs',
-        image: '/images/django-past-event-1.jpg'
+        image: import.meta.env.BASE_URL + '/images/django-past-event-1.jpg'
       },
       {
         date: '2023-12-21',
         title: 'Django Testing Best Practices',
-        image: '/images/django-past-event-2.jpg'
+        image: import.meta.env.BASE_URL + '/images/django-past-event-2.jpg'
       }
     ],
     contact: {

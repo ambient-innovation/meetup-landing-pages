@@ -13,9 +13,9 @@ export const cologneJsConfig: MeetupConfig = {
     title: 'CologneJS - JavaScript & Web Development Meetup',
     description: 'Join the CologneJS community for JavaScript, Node.js, and modern web development discussions in Cologne, Germany.',
     keywords: ['JavaScript', 'Node.js', 'Web Development', 'Cologne', 'Meetup', 'Frontend', 'Backend'],
-    ogImage: '/colognejs/og.png',
+    ogImage: import.meta.env.BASE_URL + '/colognejs/og.png',
     twitterCard: 'summary_large_image',
-    logo: '/colognejs/logo.svg'
+    logo: import.meta.env.BASE_URL + '/colognejs/logo.svg'
   },
   theme: {
     primary: '#F7DF1E',       // JavaScript yellow
@@ -44,12 +44,12 @@ export const cologneJsConfig: MeetupConfig = {
       {
         date: '2024-01-15',
         title: 'Building Scalable React Applications',
-        image: '/images/past-event-1.jpg'
+        image: import.meta.env.BASE_URL + '/images/past-event-1.jpg'
       },
       {
         date: '2023-12-18',
         title: 'Node.js Performance Optimization',
-        image: '/images/past-event-2.jpg'
+        image: import.meta.env.BASE_URL + '/images/past-event-2.jpg'
       }
     ],
     contact: {

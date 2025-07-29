@@ -92,11 +92,11 @@ jobs:
           <body>
             <h1>Meetup Landing Pages</h1>
             <p>Select a meetup to view its landing page:</p>
-            <a href="/cologne-js/" class="meetup-link">
+            <a href="/meetup-landing-pages/cologne-js/" class="meetup-link">
               <h2>Cologne.js</h2>
               <p>JavaScript meetup in Cologne</p>
             </a>
-            <a href="/django-cologne/" class="meetup-link">
+            <a href="/meetup-landing-pages/django-cologne/" class="meetup-link">
               <h2>Django Cologne</h2>
               <p>Django meetup in Cologne</p>
             </a>

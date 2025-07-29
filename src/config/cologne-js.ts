@@ -4,7 +4,8 @@ import {
   generateEventTitle, 
   commonThemeElements, 
   ambientInnovationOffice,
-  djangoCologne 
+  djangoCologne,
+  cologneJS
 } from './shared';
 
 export const cologneJsConfig: MeetupConfig = {
@@ -13,9 +14,9 @@ export const cologneJsConfig: MeetupConfig = {
     title: 'CologneJS - JavaScript & Web Development Meetup',
     description: 'Join the CologneJS community for JavaScript, Node.js, and modern web development discussions in Cologne, Germany.',
     keywords: ['JavaScript', 'Node.js', 'Web Development', 'Cologne', 'Meetup', 'Frontend', 'Backend'],
-    ogImage: import.meta.env.BASE_URL + '/colognejs/og.png',
+    ogImage: cologneJS.ogImage,
     twitterCard: 'summary_large_image',
-    logo: import.meta.env.BASE_URL + '/colognejs/logo.svg'
+    logo: cologneJS.logo
   },
   theme: {
     primary: '#F7DF1E',       // JavaScript yellow

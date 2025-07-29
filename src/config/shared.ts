@@ -20,16 +20,16 @@ export const cologneJS: MeetupConfig = {
   name: 'CologneJS',
   description: 'JavaScript & Web Development Community',
   url: 'https://colognejs.ambient.digital',
-  logo: '/colognejs/logo.svg',
-  ogImage: '/colognejs/og.png'
+  logo: import.meta.env.BASE_URL + '/colognejs/logo.svg',
+  ogImage: import.meta.env.BASE_URL + '/colognejs/og.png'
 };
 
 export const djangoCologne: MeetupConfig = {
   name: 'Django Cologne',
   description: 'Python Web Development Meetup',
   url: 'https://djangocologne.ambient.digital',
-  logo: '/djangocologne/logo.svg',
-  ogImage: '/djangocologne/og.png'
+  logo: import.meta.env.BASE_URL + '/djangocologne/logo.svg',
+  ogImage: import.meta.env.BASE_URL + '/djangocologne/og.png'
 };
 
 // Date utility functions
